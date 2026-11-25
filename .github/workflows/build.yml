@@ -36,6 +36,12 @@ jobs:
           done
           ls -la app/src/main/assets/fonts
 
+      - name: Prepare app icon
+        run: |
+          mkdir -p app/src/main/res/mipmap-xxxhdpi
+          base64 -d app/icon/ic_launcher.b64 > app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+          ls -la app/src/main/res/mipmap-xxxhdpi
+
       - name: Build APK
         run: gradle --no-daemon assembleDebug
 
