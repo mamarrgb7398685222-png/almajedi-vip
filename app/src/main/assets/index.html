@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>المجيدي VIP</title>
+<style>
+:root{--bg:#0b0d12;--card:#151922;--line:#232a36;--txt:#f3f4f6;--mut:#9aa3b2;--or:#f97316;--or2:#fb923c;--ok:#22c55e}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;line-height:1.6;padding:18px 16px 32px}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.top img{width:54px;height:54px;border-radius:14px}
+.top h1{font-size:22px;font-weight:800}
+.top h1 span{color:var(--or)}
+.top p{font-size:13px;color:var(--mut)}
+.hero{position:relative;overflow:hidden;border-radius:22px;padding:22px 20px;background:linear-gradient(135deg,#f97316 0%,#ea580c 55%,#9a3412 100%);box-shadow:0 12px 30px rgba(249,115,22,.25)}
+.hero:after{content:"";position:absolute;left:-40px;bottom:-60px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.12)}
+.hero small{display:inline-block;background:rgba(0,0,0,.22);padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700;letter-spacing:.5px}
+.hero h2{font-size:24px;margin:10px 0 4px}
+.hero p{font-size:14px;opacity:.95;max-width:85%}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;border-radius:14px;padding:14px;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer}
+.btn.white{background:#fff;color:#c2410c;margin-top:16px;position:relative;z-index:1}
+.btn.or{background:var(--or);color:#fff}
+.btn.ghost{background:transparent;color:var(--mut);border:1px solid var(--line);font-weight:600;font-size:14px;padding:11px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin-top:16px}
+.card h3{font-size:17px;display:flex;align-items:center;gap:8px}
+.card .sub{color:var(--mut);font-size:13.5px;margin:6px 0 14px}
+.st{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;margin-bottom:12px}
+.dot{width:10px;height:10px;border-radius:50%;background:#6b7280}
+.on .dot{background:var(--ok);box-shadow:0 0 0 4px rgba(34,197,94,.18)}
+.on .st{color:#86efac}
+.msg{font-size:12.5px;color:var(--mut);margin-top:10px;min-height:18px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 14px;text-align:right;color:var(--txt);font-family:inherit;cursor:pointer}
+.tile i{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;font-style:normal;font-size:20px;margin-bottom:10px;background:rgba(249,115,22,.14)}
+.tile b{display:block;font-size:15px}
+.tile span{font-size:12px;color:var(--mut)}
+.steps{list-style:none;counter-reset:s}
+.steps li{counter-increment:s;display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line);font-size:14px}
+.steps li:first-child{border-top:0}
+.steps li:before{content:counter(s);flex:none;width:28px;height:28px;border-radius:50%;background:rgba(249,115,22,.15);color:var(--or2);font-weight:800;display:flex;align-items:center;justify-content:center}
+.foot{text-align:center;color:var(--mut);font-size:12.5px;margin-top:22px}
+.foot b{color:var(--txt)}
+</style>
+</head>
+<body>
+<header class="top">
+  <img src="data:image/webp;base64,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" alt="شعار المجيدي">
+  <div><h1>المجيدي <span>VIP</span></h1><p>لخدمات الهواتف الذكية · عدن – البريقة</p></div>
+</header>
+
+<section class="hero">
+  <small>🎁 برنامج الولاء</small>
+  <h2>اجمع نقاطك واربح هدايا</h2>
+  <p>كل عملية شراء أو صيانة تقرّبك من مكافأتك القادمة.</p>
+  <button class="btn white" onclick="go('/loyalty-buy')">⭐ سجّل نقطة شراء</button>
+</section>
+
+<section class="card" id="near">
+  <h3>📍 إشعار «قريب من المجيدي»</h3>
+  <p class="sub">نذكّرك بنقاطك وعروضنا لما تمر جنب المحل. موقعك يُستخدم داخل جوالك فقط، وما نرسل تحركاتك لأي أحد.</p>
+  <div class="st"><span class="dot"></span><span id="stText">متوقف</span></div>
+  <button class="btn or" id="nearBtn" onclick="toggleNear()">تفعيل الإشعار</button>
+  <div class="msg" id="msg"></div>
+</section>
+
+<div class="grid">
+  <button class="tile" onclick="ext('https://wa.me/967771358835')"><i>💬</i><b>واتساب</b><span>راسلنا مباشرة</span></button>
+  <button class="tile" onclick="ext('tel:+967771358835')"><i>📞</i><b>اتصل بنا</b><span dir="ltr">771 358 835</span></button>
+  <button class="tile" onclick="ext('geo:12.755830,44.889946?q=12.755830,44.889946(المجيدي)')"><i>🗺️</i><b>موقع المحل</b><span>افتح الخريطة</span></button>
+  <button class="tile" onclick="go('/loyalty-buy')"><i>🎁</i><b>نقاطي</b><span>سجّل واجمع</span></button>
+</div>
+
+<section class="card">
+  <h3>✨ كيف تجمع نقاطك؟</h3>
+  <ol class="steps">
+    <li>اشترِ من المجيدي أو صلّح جوالك عندنا.</li>
+    <li>خذ رمز الشراء من الموظف واكتبه في «سجّل نقطة شراء».</li>
+    <li>اجمع نقاطك واستبدلها بهدايا من المحل.</li>
+  </ol>
+</section>
+
+<p class="foot"><b>المجيدي دائمًا معكم 🧡</b><br>شكرًا لثقتكم</p>
+
+<script>
+var SITE='https://almajedi-repair-production.up.railway.app';
+var hasNative=typeof window.Native!=='undefined';
+function go(p){location.href=SITE+p}
+function ext(u){if(hasNative)Native.open(u);else location.href=u}
+function render(on){var c=document.getElementById('near');c.classList.toggle('on',on);document.getElementById('stText').textContent=on?'مفعّل — بنذكّرك لما تقرب':'متوقف';var b=document.getElementById('nearBtn');b.textContent=on?'إيقاف الإشعار':'تفعيل الإشعار';b.className=on?'btn ghost':'btn or'}
+function toggleNear(){if(!hasNative)return;document.getElementById('msg').textContent='';if(Native.isNearEnabled())Native.disableNear();else Native.enableNear()}
+window.onNearStatus=function(m,on){render(on);document.getElementById('msg').textContent=m||''};
+render(hasNative&&Native.isNearEnabled());
+</script>
+</body>
+</html>
