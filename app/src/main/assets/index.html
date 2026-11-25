@@ -4,43 +4,44 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>المجيدي VIP</title>
+<link rel="stylesheet" href="fonts.css">
 <style>
 :root{--bg:#0b0d12;--card:#151922;--line:#232a36;--txt:#f3f4f6;--mut:#9aa3b2;--or:#f97316;--or2:#fb923c;--ok:#22c55e}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;line-height:1.6;padding:18px 16px 32px}
+body{background:var(--bg);color:var(--txt);font-family:"Tajawal",system-ui,sans-serif;font-weight:500;font-size:15px;line-height:1.7;padding:18px 16px 32px}
 .top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
 .top img{width:54px;height:54px;border-radius:14px}
-.top h1{font-size:22px;font-weight:800}
+.top h1{font-size:22px;font-weight:800;line-height:1.3}
 .top h1 span{color:var(--or)}
-.top p{font-size:13px;color:var(--mut)}
+.top p{font-size:13.5px;color:var(--mut)}
 .hero{position:relative;overflow:hidden;border-radius:22px;padding:22px 20px;background:linear-gradient(135deg,#f97316 0%,#ea580c 55%,#9a3412 100%);box-shadow:0 12px 30px rgba(249,115,22,.25)}
 .hero:after{content:"";position:absolute;left:-40px;bottom:-60px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.12)}
-.hero small{display:inline-block;background:rgba(0,0,0,.22);padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700;letter-spacing:.5px}
-.hero h2{font-size:24px;margin:10px 0 4px}
-.hero p{font-size:14px;opacity:.95;max-width:85%}
+.hero small{display:inline-block;background:rgba(0,0,0,.22);padding:3px 12px;border-radius:99px;font-size:12.5px;font-weight:800}
+.hero h2{font-size:24px;font-weight:800;line-height:1.35;margin:12px 0 6px}
+.hero p{font-size:15px;opacity:.95;max-width:88%}
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;border-radius:14px;padding:14px;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer}
 .btn.white{background:#fff;color:#c2410c;margin-top:16px;position:relative;z-index:1}
 .btn.or{background:var(--or);color:#fff}
-.btn.ghost{background:transparent;color:var(--mut);border:1px solid var(--line);font-weight:600;font-size:14px;padding:11px}
+.btn.ghost{background:transparent;color:var(--mut);border:1px solid var(--line);font-weight:500;font-size:15px;padding:12px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin-top:16px}
-.card h3{font-size:17px;display:flex;align-items:center;gap:8px}
-.card .sub{color:var(--mut);font-size:13.5px;margin:6px 0 14px}
-.st{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;margin-bottom:12px}
+.card h3{font-size:17px;font-weight:800;display:flex;align-items:center;gap:8px}
+.card .sub{color:var(--mut);font-size:14px;margin:6px 0 14px}
+.st{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;margin-bottom:12px}
 .dot{width:10px;height:10px;border-radius:50%;background:#6b7280}
 .on .dot{background:var(--ok);box-shadow:0 0 0 4px rgba(34,197,94,.18)}
 .on .st{color:#86efac}
-.msg{font-size:12.5px;color:var(--mut);margin-top:10px;min-height:18px}
+.msg{font-size:13px;color:var(--mut);margin-top:10px;min-height:18px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
 .tile{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 14px;text-align:right;color:var(--txt);font-family:inherit;cursor:pointer}
 .tile i{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;font-style:normal;font-size:20px;margin-bottom:10px;background:rgba(249,115,22,.14)}
-.tile b{display:block;font-size:15px}
-.tile span{font-size:12px;color:var(--mut)}
+.tile b{display:block;font-size:16px;font-weight:800;line-height:1.4}
+.tile span{font-size:13px;color:var(--mut)}
 .steps{list-style:none;counter-reset:s}
-.steps li{counter-increment:s;display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line);font-size:14px}
+.steps li{counter-increment:s;display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line);font-size:15px}
 .steps li:first-child{border-top:0}
 .steps li:before{content:counter(s);flex:none;width:28px;height:28px;border-radius:50%;background:rgba(249,115,22,.15);color:var(--or2);font-weight:800;display:flex;align-items:center;justify-content:center}
-.foot{text-align:center;color:var(--mut);font-size:12.5px;margin-top:22px}
-.foot b{color:var(--txt)}
+.foot{text-align:center;color:var(--mut);font-size:13px;margin-top:22px}
+.foot b{color:var(--txt);font-weight:800}
 </style>
 </head>
 <body>
