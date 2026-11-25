@@ -46,6 +46,9 @@ h3{font-size:17px;font-weight:800;margin:22px 0 10px;line-height:1.3}
 .nav{position:fixed;bottom:calc(env(safe-area-inset-bottom) + 10px);left:12px;right:12px;max-width:500px;margin:0 auto;background:rgba(21,25,34,.96);border:1px solid var(--line);border-radius:20px;display:flex;justify-content:space-around;padding:8px 4px}
 .nav button{background:none;border:0;color:#7b8494;font:500 12px "Tajawal";display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 10px;min-width:64px}
 .nav button.act{color:var(--or2);font-weight:800}
+.lbox{display:none;margin-top:10px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}.lbox.show{display:block}
+.lbox input{width:100%;background:#0b0d12;border:1px solid var(--line);border-radius:12px;color:var(--txt);font:500 14px "Tajawal";padding:12px;direction:ltr;text-align:left}
+.lbox .btns{margin-top:10px}.lerr{color:#fca5a5;font-size:13px;margin-top:8px}.lerr:empty{display:none}
 .foot{text-align:center;color:var(--mut);font-size:13px;margin-top:20px}
 </style>
 </head>
@@ -65,6 +68,7 @@ h3{font-size:17px;font-weight:800;margin:22px 0 10px;line-height:1.3}
     <button class="btn" onclick="tab('gifts')"><svg viewBox="0 0 24 24"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg>الهدايا</button>
   </div>
   <button class="link" id="linkBtn" onclick="linkCard()">عندي رابط بطاقة المجيدي</button>
+  <div class="lbox" id="lbox"><b style="font-size:15px">الصق رابط بطاقتك</b><p style="color:var(--mut);font-size:13px;margin:2px 0 10px">الرابط اللي وصلك من المجيدي، ويبدأ بـ /card/</p><input id="lin" type="url" inputmode="url" placeholder="https://.../card/..." autocomplete="off"><div class="btns"><button class="btn o" onclick="saveLink()">ربط البطاقة</button><button class="btn" onclick="hideLink()">إلغاء</button></div><div class="lerr" id="lerr"></div></div>
 
   <h3>إشعار القرب</h3>
   <button class="row" id="near" onclick="toggleNear()"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span class="t"><b id="nearT">متوقف</b><p>نذكّرك بنقاطك لما تمر جنب المحل. موقعك يبقى في جوالك.</p></span><span class="sw"></span></button>
@@ -100,10 +104,12 @@ function ext(u){if(N)N.open(u);else location.href=u}
 function tab(n){['card','gifts','shop'].forEach(function(k){$('t-'+k).classList.toggle('act',k===n);$('n-'+k).classList.toggle('act',k===n)});scrollTo(0,0)}
 function pts(n){return n==1?'نقطة واحدة':n==2?'نقطتين':(n>=3&&n<=10)?n+' نقاط':n+' نقطة'}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-function linkCard(){var v=prompt('الصق رابط بطاقتك (يبدأ بـ '+SITE+'/card/)');if(!v)return;var m=v.match(/\/(card|wallet)\/([a-f0-9]{64})/);if(!m){alert('الرابط غير صحيح');return}if(N)N.saveCard(m[2])}
+function linkCard(){$('lbox').classList.add('show');$('lerr').textContent='';setTimeout(function(){$('lin').focus()},50)}
+function hideLink(){$('lbox').classList.remove('show');$('lin').value=''}
+function saveLink(){var v=$('lin').value.trim();var m=v.match(/\/(card|wallet)\/([a-f0-9]{64})/);if(!m){$('lerr').textContent='الرابط غير صحيح، تأكد إنه رابط بطاقة المجيدي كامل';return}$('lerr').textContent='جارٍ الربط...';if(N)N.saveCard(m[2]);hideLink()}
 window.onCard=function(d){
   if(!d||!d.name){$('cEmpty').style.display='';$('cFull').style.display='none';$('prog').style.display='none';$('linkBtn').style.display='';return}
-  $('cEmpty').style.display='none';$('cFull').style.display='';$('linkBtn').style.display='none';
+  $('cEmpty').style.display='none';$('cFull').style.display='';$('linkBtn').style.display='none';$('lbox').classList.remove('show');
   $('cName').textContent=d.name;$('cPts').textContent=d.points;
   $('greet').innerHTML='أهلًا بك<b>'+esc(d.name)+' 🧡</b>';
   var rs=(d.rewards||[]).slice().sort(function(a,b){return a.points-b.points});
