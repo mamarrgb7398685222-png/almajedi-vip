@@ -1,9 +1,132 @@
 package com.almajedi.vip;
-import android.app.*;import android.os.*;import android.content.*;import android.net.Uri;import android.widget.*;import android.view.*;import android.content.pm.PackageManager;import com.google.android.gms.location.LocationServices;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import com.google.android.gms.location.LocationServices;
+import org.json.JSONObject;
+
 public class MainActivity extends Activity {
- TextView status; android.content.SharedPreferences p;
- public void onCreate(Bundle b){super.onCreate(b);p=getSharedPreferences("vip",0);LinearLayout l=new LinearLayout(this);l.setOrientation(1);l.setPadding(48,70,48,40);l.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);l.setBackgroundColor(0xfffff8f2);setContentView(l);TextView h=new TextView(this);h.setText("المجيدي VIP");h.setTextSize(32);h.setTextColor(0xffe86900);l.addView(h);TextView t=new TextView(this);t.setText("نقاطك وهداياك بانتظارك. يمكنك اختيار تفعيل إشعار عند الاقتراب من المحل. يستخدم التطبيق الموقع في الخلفية لهذا الغرض فقط، ولا يرسل مسار تحركاتك للسيرفر.");t.setTextSize(18);l.addView(t);button(l,"تسجيل الشراء وإضافة نقطة",()->startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("https://almajedi-repair-production.up.railway.app/loyalty-buy"))));button(l,"تفعيل إشعار القرب",()->enable());button(l,"إيقاف إشعار القرب",()->{p.edit().putBoolean("enabled",false).apply();LocationServices.getGeofencingClient(this).removeGeofences(Fence.intent(this));status.setText("متوقف");});status=new TextView(this);status.setText(p.getBoolean("enabled",false)?"مفعّل سابقًا":"متوقف");l.addView(status);}
- void button(LinearLayout l,String s,Runnable r){Button b=new Button(this);b.setText(s);b.setOnClickListener(v->r.run());l.addView(b);}
- void enable(){if(checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED){requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION},1);return;}if(Build.VERSION.SDK_INT>=33&&checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)!=PackageManager.PERMISSION_GRANTED){requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS},2);return;}if(!Fence.allowed(this)){if(Build.VERSION.SDK_INT==29)requestPermissions(new String[]{android.Manifest.permission.ACCESS_BACKGROUND_LOCATION},3);else new AlertDialog.Builder(this).setMessage("اختر الموقع ثم السماح طوال الوقت، ثم عد واضغط تفعيل.").setPositiveButton("الإعدادات",(d,w)->startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,Uri.parse("package:"+getPackageName())))).setNegativeButton("إلغاء",null).show();return;}Fence.start(this,()->{p.edit().putBoolean("enabled",true).apply();status.setText("تم تسجيل نطاق 200 متر");},e->status.setText("تعذر التفعيل: "+e.getMessage()));}
- public void onRequestPermissionsResult(int r,String[] s,int[] g){super.onRequestPermissionsResult(r,s,g);if(g.length>0&&g[0]==PackageManager.PERMISSION_GRANTED)enable();else status.setText("لم تُمنح الصلاحية");}
+    static final String SITE = "https://almajedi-repair-production.up.railway.app";
+    WebView web;
+    SharedPreferences p;
+
+    @Override
+    public void onCreate(Bundle b) {
+        super.onCreate(b);
+        p = getSharedPreferences("vip", 0);
+        getWindow().setStatusBarColor(0xff0b0d12);
+        getWindow().setNavigationBarColor(0xff0b0d12);
+        web = new WebView(this);
+        web.setBackgroundColor(0xff0b0d12);
+        WebSettings s = web.getSettings();
+        s.setJavaScriptEnabled(true);
+        s.setDomStorageEnabled(true);
+        web.addJavascriptInterface(new Bridge(), "Native");
+        web.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView v, WebResourceRequest r) {
+                Uri u = r.getUrl();
+                if ("file".equals(u.getScheme()) || u.toString().startsWith(SITE)) return false;
+                openExternal(u.toString());
+                return true;
+            }
+        });
+        setContentView(web);
+        web.loadUrl("file:///android_asset/index.html");
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (web != null && web.canGoBack()) web.goBack();
+        else super.onBackPressed();
+    }
+
+    void openExternal(String url) {
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+        } catch (Exception e) {
+            status("تعذر فتح الرابط على هذا الجوال");
+        }
+    }
+
+    void status(String msg) {
+        final boolean on = p.getBoolean("enabled", false);
+        final String js = "window.onNearStatus&&onNearStatus(" + JSONObject.quote(msg) + "," + on + ")";
+        runOnUiThread(() -> web.evaluateJavascript(js, null));
+    }
+
+    class Bridge {
+        @JavascriptInterface
+        public boolean isNearEnabled() {
+            return p.getBoolean("enabled", false);
+        }
+
+        @JavascriptInterface
+        public void enableNear() {
+            runOnUiThread(() -> enable());
+        }
+
+        @JavascriptInterface
+        public void disableNear() {
+            runOnUiThread(() -> {
+                p.edit().putBoolean("enabled", false).apply();
+                LocationServices.getGeofencingClient(MainActivity.this).removeGeofences(Fence.intent(MainActivity.this));
+                status("تم إيقاف إشعار القرب");
+            });
+        }
+
+        @JavascriptInterface
+        public void open(String url) {
+            runOnUiThread(() -> openExternal(url));
+        }
+    }
+
+    void enable() {
+        if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= 33 && checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 2);
+            return;
+        }
+        if (!Fence.allowed(this)) {
+            if (Build.VERSION.SDK_INT == 29) {
+                requestPermissions(new String[]{android.Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 3);
+            } else {
+                new AlertDialog.Builder(this)
+                        .setTitle("خطوة أخيرة")
+                        .setMessage("من الإعدادات افتح «الأذونات» ثم «الموقع» واختر «السماح طوال الوقت»، ثم ارجع واضغط تفعيل.")
+                        .setPositiveButton("فتح الإعدادات", (d, w) -> startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getPackageName()))))
+                        .setNegativeButton("لاحقًا", null)
+                        .show();
+                status("يحتاج إذن الموقع «طوال الوقت»");
+            }
+            return;
+        }
+        Fence.start(this,
+                () -> {
+                    p.edit().putBoolean("enabled", true).apply();
+                    status("تم التفعيل ✅ بنذكّرك لما تكون على بعد 200 متر من المحل");
+                },
+                e -> status("تعذر التفعيل: " + e.getMessage()));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int r, String[] s, int[] g) {
+        super.onRequestPermissionsResult(r, s, g);
+        if (g.length > 0 && g[0] == PackageManager.PERMISSION_GRANTED) enable();
+        else status("ما انعطت الصلاحية، الإشعار ما راح يشتغل");
+    }
 }
