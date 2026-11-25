@@ -6,11 +6,14 @@ on:
     branches: [main]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      VERSION_CODE: ${{ github.run_number }}
     steps:
       - uses: actions/checkout@v4
 
@@ -43,10 +46,29 @@ jobs:
           ls -la app/src/main/res/mipmap-xxxhdpi
 
       - name: Build APK
-        run: gradle --no-daemon assembleDebug
+        run: |
+          if [ -n "$KEYSTORE_PASSWORD" ]; then
+            openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -in app/release.jks.enc -out app/release.jks -pass env:KEYSTORE_PASSWORD
+            gradle --no-daemon assembleRelease
+            cp app/build/outputs/apk/release/app-release.apk almajedi-vip.apk
+          else
+            echo "::warning::KEYSTORE_PASSWORD secret is missing - building an unsigned-for-release debug APK"
+            gradle --no-daemon assembleDebug
+            cp app/build/outputs/apk/debug/app-debug.apk almajedi-vip.apk
+          fi
+          rm -f app/release.jks
 
       - uses: actions/upload-artifact@v4
         with:
           name: Almajedi-VIP-APK
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: almajedi-vip.apk
           if-no-files-found: error
+
+      - name: Publish download link
+        if: github.ref == 'refs/heads/main' && env.KEYSTORE_PASSWORD != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view latest >/dev/null 2>&1 || gh release create latest --title "تطبيق المجيدي VIP" --notes "آخر نسخة من تطبيق المجيدي VIP. نزّل الملف almajedi-vip.apk وثبّته على جوالك."
+          gh release upload latest almajedi-vip.apk --clobber
+          gh release edit latest --notes "آخر نسخة من تطبيق المجيدي VIP (الإصدار 1.${VERSION_CODE}). نزّل الملف almajedi-vip.apk وثبّته على جوالك."

@@ -1,8 +1,38 @@
 plugins { id 'com.android.application' }
+
+def vc = (System.getenv('VERSION_CODE') ?: '1').toInteger()
+def ksPass = System.getenv('KEYSTORE_PASSWORD')
+
 android {
-namespace 'com.almajedi.vip'
-compileSdk 35
-defaultConfig { applicationId 'com.almajedi.vip'; minSdk 26; targetSdk 35; versionCode 1; versionName '0.1' }
-compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+    namespace 'com.almajedi.vip'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'com.almajedi.vip'
+        minSdk 26
+        targetSdk 35
+        versionCode vc
+        versionName "1.${vc}"
+    }
+    signingConfigs {
+        release {
+            if (ksPass) {
+                storeFile file('release.jks')
+                storePassword ksPass
+                keyAlias 'almajedi'
+                keyPassword ksPass
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (ksPass) signingConfig signingConfigs.release
+        }
+    }
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
 }
 dependencies { implementation 'com.google.android.gms:play-services-location:21.3.0' }
