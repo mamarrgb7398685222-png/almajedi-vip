@@ -2,63 +2,78 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <title>المجيدي VIP</title>
 <link rel="stylesheet" href="fonts.css">
 <style>
-:root{--bg:#0b0d12;--card:#151922;--line:#232a36;--txt:#f3f4f6;--mut:#9aa3b2;--or:#f97316;--or2:#fb923c;--ok:#22c55e}
+:root{--bg:#0b0d12;--card:#151922;--line:#232a36;--txt:#f3f4f6;--mut:#9aa3b2;--or:#f97316;--or2:#fb923c;--ok:#22c55e;--pad:clamp(14px,4.2vw,20px)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{background:var(--bg);color:var(--txt);font-family:"Tajawal",system-ui,sans-serif;font-weight:500;font-size:15px;line-height:1.7;padding:18px 16px 32px}
-.top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
-.top img{width:54px;height:54px;border-radius:14px}
-.top h1{font-size:22px;font-weight:800;line-height:1.3}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{background:var(--bg);color:var(--txt);font-family:"Tajawal",system-ui,sans-serif;font-weight:500;font-size:15px;line-height:1.65}
+.wrap{max-width:520px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 16px) var(--pad) calc(env(safe-area-inset-bottom) + 28px)}
+svg{display:block;width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+/* header */
+.top{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.logo{width:52px;height:52px;border-radius:14px;overflow:hidden;flex:none;background:#000;border:1px solid var(--line)}
+.logo img{width:100%;height:100%;object-fit:cover;display:block}
+.top h1{font-size:21px;font-weight:800;line-height:1.25}
 .top h1 span{color:var(--or)}
-.top p{font-size:13.5px;color:var(--mut)}
-.hero{position:relative;overflow:hidden;border-radius:22px;padding:22px 20px;background:linear-gradient(135deg,#f97316 0%,#ea580c 55%,#9a3412 100%);box-shadow:0 12px 30px rgba(249,115,22,.25)}
-.hero:after{content:"";position:absolute;left:-40px;bottom:-60px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.12)}
-.hero small{display:inline-block;background:rgba(0,0,0,.22);padding:3px 12px;border-radius:99px;font-size:12.5px;font-weight:800}
-.hero h2{font-size:24px;font-weight:800;line-height:1.35;margin:12px 0 6px}
-.hero p{font-size:15px;opacity:.95;max-width:88%}
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;border-radius:14px;padding:14px;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer}
+.top p{font-size:13px;color:var(--mut);line-height:1.4}
+/* hero */
+.hero{position:relative;overflow:hidden;border-radius:22px;padding:20px var(--pad);background:linear-gradient(135deg,#f97316 0%,#ea580c 55%,#9a3412 100%);box-shadow:0 10px 26px rgba(249,115,22,.22)}
+.hero:after{content:"";position:absolute;left:-50px;bottom:-70px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.12);pointer-events:none}
+.chip{display:inline-flex;align-items:center;gap:6px;background:rgba(0,0,0,.22);padding:4px 12px;border-radius:99px;font-size:12.5px;font-weight:800}
+.chip svg{width:16px;height:16px}
+.hero h2{font-size:clamp(20px,6vw,24px);font-weight:800;line-height:1.35;margin:12px 0 4px}
+.hero p{font-size:14.5px;opacity:.95}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:50px;border:0;border-radius:14px;padding:12px 16px;font:800 16px/1.2 "Tajawal",system-ui,sans-serif;cursor:pointer}
+.btn svg{width:20px;height:20px}
 .btn.white{background:#fff;color:#c2410c;margin-top:16px;position:relative;z-index:1}
 .btn.or{background:var(--or);color:#fff}
-.btn.ghost{background:transparent;color:var(--mut);border:1px solid var(--line);font-weight:500;font-size:15px;padding:12px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin-top:16px}
-.card h3{font-size:17px;font-weight:800;display:flex;align-items:center;gap:8px}
-.card .sub{color:var(--mut);font-size:14px;margin:6px 0 14px}
+.btn.ghost{background:transparent;color:var(--mut);border:1px solid var(--line);font-weight:500}
+/* cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:var(--pad);margin-top:14px}
+.head{display:flex;align-items:center;gap:10px}
+.ico{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:rgba(249,115,22,.14);color:var(--or2);flex:none}
+.head h3{font-size:17px;font-weight:800;line-height:1.3}
+.sub{color:var(--mut);font-size:14px;margin:10px 0 14px}
 .st{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;margin-bottom:12px}
-.dot{width:10px;height:10px;border-radius:50%;background:#6b7280}
+.dot{width:10px;height:10px;border-radius:50%;background:#6b7280;flex:none}
 .on .dot{background:var(--ok);box-shadow:0 0 0 4px rgba(34,197,94,.18)}
 .on .st{color:#86efac}
-.msg{font-size:13px;color:var(--mut);margin-top:10px;min-height:18px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
-.tile{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 14px;text-align:right;color:var(--txt);font-family:inherit;cursor:pointer}
-.tile i{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;font-style:normal;font-size:20px;margin-bottom:10px;background:rgba(249,115,22,.14)}
-.tile b{display:block;font-size:16px;font-weight:800;line-height:1.4}
-.tile span{font-size:13px;color:var(--mut)}
-.steps{list-style:none;counter-reset:s}
-.steps li{counter-increment:s;display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line);font-size:15px}
+.msg{font-size:13px;color:var(--mut);margin-top:10px}
+.msg:empty{display:none}
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-height:118px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 14px;text-align:right;color:var(--txt);font-family:inherit;cursor:pointer}
+.tile b{display:block;font-size:16px;font-weight:800;line-height:1.3}
+.tile span{display:block;font-size:13px;color:var(--mut);line-height:1.4}
+@media (max-width:330px){.grid{grid-template-columns:1fr}.tile{min-height:0;flex-direction:row;align-items:center}}
+/* steps */
+.steps{list-style:none;margin-top:8px}
+.steps li{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line);font-size:15px;line-height:1.5}
 .steps li:first-child{border-top:0}
-.steps li:before{content:counter(s);flex:none;width:28px;height:28px;border-radius:50%;background:rgba(249,115,22,.15);color:var(--or2);font-weight:800;display:flex;align-items:center;justify-content:center}
-.foot{text-align:center;color:var(--mut);font-size:13px;margin-top:22px}
+.num{flex:none;width:28px;height:28px;border-radius:50%;background:rgba(249,115,22,.15);color:var(--or2);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+.foot{text-align:center;color:var(--mut);font-size:13px;margin-top:22px;line-height:1.6}
 .foot b{color:var(--txt);font-weight:800}
 </style>
 </head>
 <body>
+<div class="wrap">
 <header class="top">
-  <img src="data:image/webp;base64,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" alt="شعار المجيدي">
+  <div class="logo"><img src="data:image/webp;base64,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" alt="شعار المجيدي"></div>
   <div><h1>المجيدي <span>VIP</span></h1><p>لخدمات الهواتف الذكية · عدن – البريقة</p></div>
 </header>
 
 <section class="hero">
-  <small>🎁 برنامج الولاء</small>
+  <span class="chip"><svg viewBox="0 0 24 24"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg>برنامج الولاء</span>
   <h2>اجمع نقاطك واربح هدايا</h2>
   <p>كل عملية شراء أو صيانة تقرّبك من مكافأتك القادمة.</p>
-  <button class="btn white" onclick="go('/loyalty-buy')">⭐ سجّل نقطة شراء</button>
+  <button class="btn white" onclick="go('/loyalty-buy')"><svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>سجّل نقطة شراء</button>
 </section>
 
 <section class="card" id="near">
-  <h3>📍 إشعار «قريب من المجيدي»</h3>
+  <div class="head"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></span><h3>إشعار «قريب من المجيدي»</h3></div>
   <p class="sub">نذكّرك بنقاطك وعروضنا لما تمر جنب المحل. موقعك يُستخدم داخل جوالك فقط، وما نرسل تحركاتك لأي أحد.</p>
   <div class="st"><span class="dot"></span><span id="stText">متوقف</span></div>
   <button class="btn or" id="nearBtn" onclick="toggleNear()">تفعيل الإشعار</button>
@@ -66,22 +81,23 @@ body{background:var(--bg);color:var(--txt);font-family:"Tajawal",system-ui,sans-
 </section>
 
 <div class="grid">
-  <button class="tile" onclick="ext('https://wa.me/967771358835')"><i>💬</i><b>واتساب</b><span>راسلنا مباشرة</span></button>
-  <button class="tile" onclick="ext('tel:+967771358835')"><i>📞</i><b>اتصل بنا</b><span dir="ltr">771 358 835</span></button>
-  <button class="tile" onclick="ext('geo:12.755830,44.889946?q=12.755830,44.889946(المجيدي)')"><i>🗺️</i><b>موقع المحل</b><span>افتح الخريطة</span></button>
-  <button class="tile" onclick="go('/loyalty-buy')"><i>🎁</i><b>نقاطي</b><span>سجّل واجمع</span></button>
+  <button class="tile" onclick="ext('https://wa.me/967771358835')"><span class="ico"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.6-5.2A8.5 8.5 0 1 1 21 11.5z"/></svg></span><div><b>واتساب</b><span>راسلنا مباشرة</span></div></button>
+  <button class="tile" onclick="ext('tel:+967771358835')"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span><div><b>اتصل بنا</b><span dir="ltr" style="text-align:right">771 358 835</span></div></button>
+  <button class="tile" onclick="ext('geo:12.755830,44.889946?q=12.755830,44.889946(المجيدي)')"><span class="ico"><svg viewBox="0 0 24 24"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg></span><div><b>موقع المحل</b><span>افتح الخريطة</span></div></button>
+  <button class="tile" onclick="go('/loyalty-buy')"><span class="ico"><svg viewBox="0 0 24 24"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg></span><div><b>نقاطي</b><span>سجّل واجمع</span></div></button>
 </div>
 
 <section class="card">
-  <h3>✨ كيف تجمع نقاطك؟</h3>
+  <div class="head"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></span><h3>كيف تجمع نقاطك؟</h3></div>
   <ol class="steps">
-    <li>اشترِ من المجيدي أو صلّح جوالك عندنا.</li>
-    <li>خذ رمز الشراء من الموظف واكتبه في «سجّل نقطة شراء».</li>
-    <li>اجمع نقاطك واستبدلها بهدايا من المحل.</li>
+    <li><span class="num">1</span><span>اشترِ من المجيدي أو صلّح جوالك عندنا.</span></li>
+    <li><span class="num">2</span><span>خذ رمز الشراء من الموظف واكتبه في «سجّل نقطة شراء».</span></li>
+    <li><span class="num">3</span><span>اجمع نقاطك واستبدلها بهدايا من المحل.</span></li>
   </ol>
 </section>
 
 <p class="foot"><b>المجيدي دائمًا معكم 🧡</b><br>شكرًا لثقتكم</p>
+</div>
 
 <script>
 var SITE='https://almajedi-repair-production.up.railway.app';
