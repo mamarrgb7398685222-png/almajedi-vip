@@ -28,6 +28,14 @@ jobs:
         with:
           gradle-version: '8.9'
 
+      - name: Download Tajawal fonts
+        run: |
+          mkdir -p app/src/main/assets/fonts
+          for f in arabic-500 arabic-800 latin-500 latin-800; do
+            curl -fsSL -o app/src/main/assets/fonts/tajawal-$f-normal.woff2 https://cdn.jsdelivr.net/npm/@fontsource/tajawal@5.3.0/files/tajawal-$f-normal.woff2
+          done
+          ls -la app/src/main/assets/fonts
+
       - name: Build APK
         run: gradle --no-daemon assembleDebug
 
