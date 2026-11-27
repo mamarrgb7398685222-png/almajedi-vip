@@ -24,7 +24,8 @@ import android.widget.TextView;
 /** متجر المجيدي داخل التطبيق: يفتح نسخة الويب من المتجر في شاشة مستقلة. */
 public class ShopActivity extends Activity {
     static final String STORE = "https://almajidi-mobile-sj0k.whacka.app/";
-    static final int BG = 0xff0b0d12;
+    static final int BG = 0xff15090c;
+    static final int HEAD = 0xff1f0d12;
     static final int PICK = 41;
 
     WebView web;
@@ -44,7 +45,7 @@ public class ShopActivity extends Activity {
     @Override
     public void onCreate(Bundle b) {
         super.onCreate(b);
-        getWindow().setStatusBarColor(BG);
+        getWindow().setStatusBarColor(HEAD);
         getWindow().setNavigationBarColor(BG);
 
         LinearLayout root = new LinearLayout(this);
@@ -55,21 +56,21 @@ public class ShopActivity extends Activity {
         LinearLayout head = new LinearLayout(this);
         head.setOrientation(LinearLayout.HORIZONTAL);
         head.setGravity(Gravity.CENTER_VERTICAL);
-        head.setPadding(dp(8), dp(6), dp(14), dp(6));
-        head.setBackgroundColor(0xff151922);
+        head.setPadding(dp(6), dp(2), dp(10), dp(2));
+        head.setBackgroundColor(HEAD);
 
         TextView back = new TextView(this);
         back.setText("→  بطاقتي");
         back.setTextColor(0xfffb923c);
         back.setTextSize(15);
         back.setTypeface(Typeface.DEFAULT_BOLD);
-        back.setPadding(dp(10), dp(8), dp(10), dp(8));
+        back.setPadding(dp(10), dp(10), dp(10), dp(10));
         back.setOnClickListener(v -> finish());
 
         TextView title = new TextView(this);
         title.setText("متجر المجيدي");
         title.setTextColor(Color.WHITE);
-        title.setTextSize(16);
+        title.setTextSize(15);
         title.setTypeface(Typeface.DEFAULT_BOLD);
         title.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
@@ -128,7 +129,22 @@ public class ShopActivity extends Activity {
         root.addView(head, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         root.addView(bar, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(3)));
         root.addView(web, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
+        // أندرويد 15 يرسم التطبيق خلف شريط الحالة: نترك مسافة بقدر شريط الحالة وشريط التنقل
+        root.setOnApplyWindowInsetsListener((v, in) -> {
+            int top, bottom;
+            if (android.os.Build.VERSION.SDK_INT >= 30) {
+                android.graphics.Insets i = in.getInsets(android.view.WindowInsets.Type.systemBars() | android.view.WindowInsets.Type.ime());
+                top = i.top;
+                bottom = i.bottom;
+            } else {
+                top = in.getSystemWindowInsetTop();
+                bottom = in.getSystemWindowInsetBottom();
+            }
+            v.setPadding(0, top, 0, bottom);
+            return in;
+        });
         setContentView(root);
+        root.requestApplyInsets();
 
         if (b != null) web.restoreState(b);
         else web.loadUrl(STORE);
