@@ -67,6 +67,49 @@ public class MainActivity extends Activity {
         setContentView(web);
         handleLink(getIntent());
         web.loadUrl("file:///android_asset/index.html");
+        checkUpdate();
+    }
+
+    static final String RELEASE_API = "https://api.github.com/repos/mamarrgb7398685222-png/almajedi-vip/releases/tags/latest";
+    static final String APK_URL = "https://github.com/mamarrgb7398685222-png/almajedi-vip/releases/download/latest/almajedi-vip.apk";
+
+    /** يتأكد من وجود نسخة أحدث على رابط التحميل، ويعرض رسالة تحديث مرة واحدة في اليوم كحد أقصى. */
+    void checkUpdate() {
+        long now = System.currentTimeMillis();
+        if (now - p.getLong("updAsked", 0) < 12 * 3600 * 1000L) return;
+        new Thread(() -> {
+            try {
+                android.content.pm.PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+                @SuppressWarnings("deprecation") long mine = Build.VERSION.SDK_INT >= 28 ? pi.getLongVersionCode() : pi.versionCode;
+                HttpURLConnection c = (HttpURLConnection) new URL(RELEASE_API).openConnection();
+                c.setConnectTimeout(8000);
+                c.setReadTimeout(10000);
+                c.setRequestProperty("Accept", "application/vnd.github+json");
+                c.setRequestProperty("User-Agent", "almajedi-vip");
+                if (c.getResponseCode() != 200) return;
+                StringBuilder sb = new StringBuilder();
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream(), "UTF-8"))) {
+                    String line;
+                    while ((line = br.readLine()) != null) sb.append(line);
+                }
+                String body = new JSONObject(sb.toString()).optString("body", "");
+                Matcher m = Pattern.compile("1\\.(\\d+)").matcher(body);
+                if (!m.find()) return;
+                final long latest = Long.parseLong(m.group(1));
+                if (latest <= mine) return;
+                runOnUiThread(() -> {
+                    if (isFinishing() || isDestroyed()) return;
+                    p.edit().putLong("updAsked", System.currentTimeMillis()).apply();
+                    new AlertDialog.Builder(this)
+                            .setTitle("يتوفر تحديث جديد 🎉")
+                            .setMessage("نسخة جديدة من تطبيق المجيدي VIP (1." + latest + ") جاهزة.\n\nنزّلها وثبّتها فوق التطبيق الحالي، لا تحذفه، وبطاقتك ونقاطك تبقى محفوظة.")
+                            .setPositiveButton("حدّث الآن", (d, w) -> openExternal(APK_URL))
+                            .setNegativeButton("لاحقًا", null)
+                            .show();
+                });
+            } catch (Exception ignored) {
+            }
+        }).start();
     }
 
     @Override
@@ -151,7 +194,7 @@ public class MainActivity extends Activity {
                 String json = o.toString();
                 p.edit().putString("cardJson", json).apply();
                 js("window.onCard&&onCard(" + json + ")");
-            } catch (Exception ignored) {
+            } catch (Throwable ignored) {
             }
         }).start();
     }
