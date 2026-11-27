@@ -182,6 +182,11 @@ public class MainActivity extends Activity {
         }
 
         @JavascriptInterface
+        public void openShop() {
+            runOnUiThread(() -> startActivity(new Intent(MainActivity.this, ShopActivity.class)));
+        }
+
+        @JavascriptInterface
         public void loadCard() {
             MainActivity.this.loadCard();
         }
